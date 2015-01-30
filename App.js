@@ -10,7 +10,6 @@ Ext.define('CustomApp', {
     },
 
     launch: function() {
-
         var app = this;
 
         var vbox = this.add({
@@ -23,7 +22,7 @@ Ext.define('CustomApp', {
 
         var defectPanel = vbox.add({
             xtype: 'panel',
-            title: '1. Click a defect',
+            title: '1. Click a defect'
         });
 
         var defectGridConfig = this._createDefectGridConfig(app);
@@ -32,7 +31,7 @@ Ext.define('CustomApp', {
         var storyPanel = vbox.add({
             xtype: 'panel',
             id: 'storypanel',
-            title: '2. Check the stories to associate',
+            title: '2. Check the stories to associate'
         });
 
         var storyGridConfig = this._createStoryGridConfig();
