@@ -5,7 +5,7 @@ Map Defects to Stories
 Once the workspace is setup, this app allows the user to save a list of User Story FormattedIDs
 to a defect. This workarounds the current limitation of only allowing one parent story per defect.
 
-(./mapDefectsToStories.png)
+!['screenshot'](./mapDefectsToStories.png)
 
 ## License
 
