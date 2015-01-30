@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>mapDefectToStories</title>
+
+    <script type="text/javascript" src="/apps/2.0/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function () {
+                Ext.define("CustomApp",{extend:"Rally.app.App",componentCls:"app",layout:{type:"fit"},config:{customDefectField:"c_AssociatedUserStories"},launch:function(){var app=this,vbox=this.add({xtype:"container",layout:{type:"vbox",align:"stretch"}}),defectPanel=vbox.add({xtype:"panel",title:"1. Click a defect"}),defectGridConfig=this._createDefectGridConfig(app);defectPanel.add(defectGridConfig);var storyPanel=vbox.add({xtype:"panel",id:"storypanel",title:"2. Check the stories to associate"}),storyGridConfig=this._createStoryGridConfig();storyPanel.add(storyGridConfig);var buttonContainer=vbox.add({xtype:"panel",border:!1,id:"buttonpanel",title:"3. Save your choices"}),okButton=buttonContainer.add({xtype:"rallybutton",id:"savebutton",text:"Save",handler:this._onOK,scope:app,width:100})},_createDefectGridConfig:function(app){return{xtype:"rallygrid",itemId:"defectgrid",autoLoad:!0,columnCfgs:["FormattedID","Name","Owner","c_AssociatedUserStories"],storeConfig:{model:"defect"},viewConfig:{stripeRows:!1},listeners:{beforeCellClick:function(view,td,cellIndex,record,tr,rowIndex,e,eOpts){return e.stopEvent(),this.selectedDefect=record,view.select(record),this.down("#defectgrid").highlightRowForRecord(record),!1},scope:app}}},_createStoryGridConfig:function(){return{xtype:"rallygrid",itemId:"storygrid",autoLoad:!0,selModel:{selType:"checkboxmodel",checkOnly:!0},columnCfgs:["FormattedID","Name","Owner"],storeConfig:{model:"userstory"},viewConfig:{stripeRows:!1}}},_onOK:function(){var defect=this.selectedDefect;if(!defect)return alert("Please choose a defect"),void 0;var storyGrid=this.down("#storygrid"),checkedStories=storyGrid.getSelectionModel().selected.getRange();if(!checkedStories||0===checkedStories.length)return alert("Please choose at least one story to associate to "+defect.get("FormattedID")),void 0;var checkedStoryIds=_.invoke(checkedStories,"get","FormattedID");defect.set(this.customDefectField,checkedStoryIds.join(";")),defect.save()}});
+
+            Rally.launchApp('CustomApp', {
+                name:"mapDefectToStories",
+	            parentRepos:""
+            });
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        #storypanel{padding-top:20px}#savebutton{float:right}#buttonpanel{padding-top:20px}
+    </style>
+</head>
+<body>
+</body>
+</html>

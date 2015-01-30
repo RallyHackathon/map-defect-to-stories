@@ -1,2 +1,13 @@
-# map-defect-to-stories
-App that will set a semi-column delimited list of associated stories in a defect
+mapDefectToStories
+=========================
+
+## Overview
+
+
+## License
+
+AppTemplate is released under the MIT license.  See the file [LICENSE](./LICENSE) for the full text.
+
+##Documentation for SDK
+
+You can find the documentation on our help [site.](https://help.rallydev.com/apps/2.0/doc/)
