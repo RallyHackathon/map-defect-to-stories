@@ -1,5 +1,5 @@
 {
-   "name": "mapDefectToStories",
+   "name": "Map Defect to Stories",
    "className": "CustomApp",
    "server": "http://localhost:7001",
    "sdk": "2.0",
