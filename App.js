@@ -14,6 +14,7 @@ Ext.define('CustomApp', {
                 value: 'Closed'
             }
         ],
+        userStoryFilters: [],
         defectGridHeight: 200,
         storyGridHeight: 310
     },
@@ -111,26 +112,31 @@ Ext.define('CustomApp', {
 
     _getStoryGridConfig: function() {
         var deferred = new Deft.Deferred(),
-            modelNames = ['userstory'];
+            modelNames = ['userstory'],
+            context = this.getContext();
 
         Ext.create('Rally.data.wsapi.TreeStoreBuilder').build({
             models: modelNames,
-            autoLoad: true,
             enableHierarchy: false
         }).then({
             success: function (store) {
                 deferred.resolve({
                     xtype: 'rallygridboard',
-                    context: this.getContext(),
+                    context: context,
                     modelNames: modelNames,
                     toggleState: 'grid',
+                    stateful: false,
+                    storeConfig: {
+                        filters: this.userStoryFilters
+                    },
                     gridConfig: {
                         enableRanking: false,
                         store: store,
                         columnCfgs: [
                             'FormattedID',
                             'Name',
-                            'Owner'
+                            'Owner',
+                            'ScheduleState'
                         ],
                         selModel: {
                             selType: 'checkboxmodel',
@@ -140,7 +146,9 @@ Ext.define('CustomApp', {
                     plugins: [{
                         ptype: 'rallygridboardcustomfiltercontrol',
                         filterControlConfig: {
-                            modelNames: modelNames
+                            modelNames: modelNames,
+                            stateful: true,
+                            stateId: context.getScopedStateId('defect-map-stories-filter')
                         }
                     }],
                     height: this.storyGridHeight
@@ -150,28 +158,6 @@ Ext.define('CustomApp', {
         });
 
         return deferred.promise;
-    },
-
-    _createStoryGridConfig: function() {
-        return {
-            xtype: 'rallygrid',
-            autoLoad: true,
-            selModel: {
-                selType: 'checkboxmodel',
-                checkOnly: true
-            },
-            columnCfgs: [
-                'FormattedID',
-                'Name',
-                'Owner'
-            ],
-            storeConfig: {
-                model: 'userstory'
-            },
-            viewConfig: {
-                stripeRows: false
-            }
-        };
     },
 
     _onOK: function() {
